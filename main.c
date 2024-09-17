@@ -3,6 +3,7 @@
 #include <time.h>
 #include <math.h>
 
+//I use Macro for now cuz I don't need a scan function rn, but I will add scan function later for matrix any demension
 #define N 3
 #define M 3
 
@@ -16,8 +17,8 @@ QuadraticEquation generate_quadratic_equation()
 {
     QuadraticEquation eq;
     eq.a = rand() % 10 + 1;                             //can't be zero
-    eq.a = rand() % 21 - 10;
-    eq.a = rand() % 21 - 10;
+    eq.b = rand() % 21 - 10;
+    eq.c = rand() % 21 - 10;
     return eq;
 }
 
@@ -59,14 +60,14 @@ int main()
         for(int j = 0; j < M; ++j){
             QuadraticEquation eq = matrix[i][j];
             EQSolver(eq, &root1, &root2, &num_roots);
-            printf("Equation (%d, %d): %.0lfx^2 + %.0lfx + %.0lf = 0\n", i, j, eq.a, eq.b, eq.c);
+            printf("Equation [%d, %d]: %.0lfx^2+%.0lfx+%.0lf=0\n", i, j, eq.a, eq.b, eq.c);
             
             if(num_roots == 2){
-                printf("Roots: %.2lf and %.2lf\n", root1, root2);
+                printf("Roots: %.2lf and %.2lf\n\n", root1, root2);
             } else if (num_roots == 1){
-                printf("Root only one: %.2lf\n", root1);
+                printf("Root only one: %.2lf\n\n", root1);
             } else {
-                printf("No valid roots");
+                printf("No valid roots\n");
             }
         }
     }
