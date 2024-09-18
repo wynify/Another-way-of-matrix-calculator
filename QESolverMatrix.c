@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
-#include "defenitions.h"
+#include "define.h"
 
 
-int QESolverMatix()
+int QESolverMatrix()
 {
     srand(time(0));
     
@@ -15,10 +15,10 @@ int QESolverMatix()
         }
     } 
     
-    // Решение уравнений в матрице
+    // Solve in matrix
     double root1, root2;
     int num_roots;
-    double roots[2][2][2]; // Массив для хранения корней уравнений
+    double roots[2][2][2]; // array for roots
 
     printf("Matrix:\n");
     for (int i = 0; i < N; i++) {
@@ -32,7 +32,7 @@ int QESolverMatix()
         }
     }
 
-    // Вывод решений в формате таблицы
+    // Print in a table
     printf("\nEquesion solver:\n");
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
