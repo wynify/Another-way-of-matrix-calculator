@@ -4,8 +4,7 @@ For some reasons I want to create a matrix calculator that can be work with a lo
 |--------------|-----------|------------|
 | Quadratic    |           |    ✅   |
 | Cubic        |           |    ✅   |
-| x^n equations|    🈺     |            |
-| Trigonometry |    🈺    |            |
+| x^n equations|           |    ✅   |
 ## Requirements:
 - *Matrix needs to be any dimension*  ✅
 - *Code must be written on* ***C/C++***     ✅✅✅
