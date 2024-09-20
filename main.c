@@ -1,15 +1,50 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include <math.h>
-#include "QE.c"
-#include "QESolverMatrix.c"
+#include <time.h>
+#include <stdlib.h>
+#include <complex.h>
 
-//I use Macro for now cuz I don't need a scan function rn, but I will add scan function later for matrix any demension
+#include "CubicEquation.c"
+#include "QuadraticEquation.c"
 
 
 int main()
 {
-  QESolverMatix();
+    srand(time(NULL));
+    int RAND_NUM = (rand() % 10) + 1; //uses only for row and col for now
+    
+    
+    int row, col;
+    row = RAND_NUM;
+    col = RAND_NUM;
+    
+    int OP;
+    printf("Enter an OP-Code for generation:\n1 - Quadratic Equation's\n2 - Cubic Equation's\n3 - Both\n\n");
+    scanf("%d", &OP);
+    
+    QuadraticEquationMatrix qem;
+    CubicEquationMatrix cem;
+    switch(OP){
+      case 1:
+        QuadraticEquatioMatrixCreate(&qem, row, col);
+        QuadraticEquatioMatrixPrint(&qem);
+        
+        break;
+      case 2:
+        CubicEquationMatrixCreate(&cem, row, col);
+        CubicEquationMatrixPrint(&cem);
+            
+        break;
+      case 3:
+        QuadraticEquatioMatrixCreate(&qem, row, col);
+        QuadraticEquatioMatrixPrint(&qem);
+        
+        CubicEquationMatrixCreate(&cem, row, col);
+        CubicEquationMatrixPrint(&cem);
+        
+        break;
+    }
+    QEMatrixFree(&qem);
+    CEMatrixFree(&cem);
   return 0;
 }
