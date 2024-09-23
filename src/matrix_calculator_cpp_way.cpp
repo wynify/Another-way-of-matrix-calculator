@@ -1,111 +1,131 @@
-//NOT IN USE
+//N O T  I N   U S E 
 
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include <string>
 
-class Matrix {
+using namespace std;
+
+class Matrix{
 public:
     int row, col;
-    std::vector<std::vector<int>> data;
+    vector<vector<int>> data;
 
-    Matrix(int r, int c) : row(r), col(c), data(r, std::vector<int>(c)) {}
+    Matrix(int r, int c) : row(r), col(c), data(r, vector<int>(c)) {}
 
-    void input() {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                std::cin >> data[i][j];
+    void input(){
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < col; j++){
+                cin >> data[i][j];
+            } 
+        }     
+    }
+
+    void print() const{
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < col; j++){
+                cout << "[" << data[i][j] << "]";
             }
+            cout << "\n";
         }
     }
 
-    void print() const {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                std::cout << " [" << data[i][j] << "] ";
-            }
-            std::cout << "\n";
-        }
-    }
-
-    Matrix operator+(const Matrix& other) const {
+    Matrix operator+(const Matrix& other) const{
         Matrix result(row, col);
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < col; j++){
                 result.data[i][j] = data[i][j] + other.data[i][j];
             }
         }
         return result;
     }
 
-    Matrix operator-(const Matrix& other) const {
+    Matrix operator-(const Matrix& other) const{
         Matrix result(row, col);
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < col; j++){
                 result.data[i][j] = data[i][j] - other.data[i][j];
             }
         }
         return result;
     }
 
-    // Пример для умножения матриц
-    Matrix operator*(const Matrix& other) const {
+    Matrix operator*(const Matrix& other) const{
         Matrix result(row, other.col);
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < other.col; j++) {
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < other.col; j++){
                 result.data[i][j] = 0;
-                for (int k = 0; k < col; k++) {
+                for (int k = 0; k < col; k++){
                     result.data[i][j] += data[i][k] * other.data[k][j];
                 }
-            }
+
+            }  
         }
-        return result;
+        return result;  
     }
 
-    // Пример для деления матриц (элементное деление)
-    Matrix operator/(const Matrix& other) const {
+    Matrix operator/(const Matrix& other) const{
         Matrix result(row, col);
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (other.data[i][j] != 0) {
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < col; j++){
+                if (other.data[i][j] != 0){
                     result.data[i][j] = data[i][j] / other.data[i][j];
                 } else {
-                    std::cerr << "Division by zero error at (" << i << ", " << j << ")\n";
-                    result.data[i][j] = 0; // или другое значение по умолчанию
+                    cerr << "Division by zero error at (" << i << ", " << j << ")\n";
+                    result.data[i][j] = 0;
                 }
             }
         }
-        return result;
+    return result;
     }
 };
 
-void EXPECT_MATRIX() {
+Matrix parseAndCompute(const string& expression, const Matrix& m1, const Matrix& m2){
+    istringstream iss(expression);
+    string matrix1, op, matrix2; //Описывается ввод операнда между двумя матрицами
+    iss >> matrix1 >> op >> matrix2;
+
+    if (matrix1 == "matrix1" && matrix2 == "matrix2"){
+        if(op == "+"){
+            return m1 + m2;
+        } else if(op == "-"){
+            return m1 - m2;
+        } else if(op == "*"){
+            return m1 * m2;
+        } else if (op == "/"){
+            return m1 / m2;
+        } else {
+            cerr << "Invalid operator\n";
+        }
+    } else {cerr << "Invalid matrix names\n";}
+    return Matrix(0, 0);
+}
+
+int main() {
     int row, col;
-    std::cout << "Enter the number of rows and columns: ";
-    std::cin >> row >> col;
+    cout << "Enter the number of rows and columns: ";
+    cin >> row >> col;
 
     Matrix m1(row, col);
     Matrix m2(row, col);
 
-    std::cout << "Enter numbers for matrix A:\n";
+    cout << "Enter numbers for matrix A:\n";
     m1.input();
 
-    std::cout << "Enter numbers for matrix B:\n";
+    cout << "Enter numbers for matrix B:\n";
     m2.input();
 
-    Matrix sum = m1 + m2;
-    Matrix diff = m1 - m2;
-    Matrix prod = m1 * m2;
-    Matrix div = m1 / m2;
+    cin.ignore(); // Игнорируем оставшийся символ новой строки после ввода чисел
 
-    std::cout << "Sum of matrices:\n";
-    sum.print();
+    string expression;
+    cout << "Enter the expression (e.g., matrix1 + matrix2): ";
+    getline(cin, expression);
 
-    std::cout << "Difference of matrices:\n";
-    diff.print();
+    Matrix result = parseAndCompute(expression, m1, m2);
 
-    std::cout << "Product of matrices:\n";
-    prod.print();
+    cout << "Resultant matrix:\n";
+    result.print();
 
-    std::cout << "Division of matrices:\n";
-    div.print();
+    return 0;
 }
