@@ -27,9 +27,9 @@ void PrintMenu(Command commands[], int size){
 
 void Menu(int row, int col, int OP, int n){
     Command commands[COMMANDS] = {
-        {1, "Quadratic Equation's"},
-        {2, "Cubic Equation's"},
-        {3, "Both: Quadratic+Cubic"},
+        {1, "Random quantity of Quadratic Equation's"},
+        {2, "Random quantity ofCubic Equation's"},
+        {3, "Both: Random quantity of Quadratic+Cubic"},
         {4, "Polinom x^n"},
         {5, "[NEW] Enter to MatrixCalculator (UPD 23.09.24) *Only ADD matrix for now. I work an update ;)"}
     };   
@@ -43,19 +43,19 @@ void Menu(int row, int col, int OP, int n){
     //Обработка выражений
     switch (OP){
         case 1:
-            printf("You selected Quadratic Equation's\n");
+            printf("You selected Quadratic Equation's\nThis function generate random quantity of Quadratic Equation's\n");
             QuadraticEquatioMatrixCreate(&qem, row, col);
             QuadraticEquatioMatrixPrint(&qem);
             QEMatrixFree(&qem);
         break;
         case 2:
-            printf("You selected Cubic Equation's\n");
+            printf("You selected Cubic Equation's\nThis function generate random quantity of Cubic Equation's\n");
             CubicEquationMatrixCreate(&cem, row, col);
             CubicEquationMatrixPrint(&cem);
             CEMatrixFree(&cem);
             break;
         case 3:
-            printf("You selected Both\n");
+            printf("You selected Both\n\nThis function generate random quantity of Quadratic and Cubic Equation's\n");
             QuadraticEquatioMatrixCreate(&qem, row, col);
             QuadraticEquatioMatrixPrint(&qem);
             QEMatrixFree(&qem);

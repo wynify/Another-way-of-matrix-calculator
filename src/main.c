@@ -11,7 +11,7 @@
 int main()
 {
   srand(time(NULL));
-  int RAND_NUM = 2;//(rand() % 10) + 1; //uses only for row and col for now 2;//
+  int RAND_NUM = (rand() % 10) + 1; //uses only for row and col for now 2;//
     
   int row, col;
   int OP;
