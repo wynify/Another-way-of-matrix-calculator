@@ -16,7 +16,6 @@ Matrix createMatrix(int row, int col){
     for (int i = 0; i < row; i++){
         m.data[i] = (int*)malloc(row * sizeof(int));
     }
-
     return m;    
 }
 
@@ -26,6 +25,7 @@ Matrix inputMatrix(Matrix m){
             scanf("%d", &m.data[i][j]);
         }
     }
+    return m;
 }
 
 Matrix addMatrix(Matrix m1, Matrix m2){
@@ -65,7 +65,8 @@ void FreeMatrix(Matrix m){
     free(m.data);
 }
 
-void EXPECT_MATRIX(int row, int col){
+void EXPECT_MATRIX() {
+    int row, col, operation;
     printf("Enter the number of rows and columns: ");
     scanf("%d %d", &row, &col);
 
@@ -78,7 +79,20 @@ void EXPECT_MATRIX(int row, int col){
     printf("Enter numbers for matrix B:\n");
     inputMatrix(m2);
 
-    Matrix result = addMatrix(m1, m2);
+    printf("Choose an operation:\n1 - Add\n2 - Subtract\n");
+    scanf("%d", &operation);
+
+    Matrix result;
+    if (operation == 1) {
+        result = addMatrix(m1, m2);
+    } else if (operation == 2) {
+        result = subMatrix(m1, m2);
+    } else {
+        printf("Invalid operation\n");
+        FreeMatrix(m1);
+        FreeMatrix(m2);
+        return;
+    }
 
     printf("Resultant matrix:\n");
     printMatrix(result);

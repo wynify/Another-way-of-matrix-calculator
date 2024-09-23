@@ -7,6 +7,7 @@
 #include "CubicEquation.c"
 #include "QuadraticEquation.c"
 #include "xn.c"
+#include "matrix_calculator_upd.c"
 
 #define COMMANDS 5
 
@@ -71,7 +72,7 @@ void Menu(int row, int col, int OP, int n){
             break;
         case 5:
             printf("You selected MatrixCalculator\n");
-            EXPECT_MATRIX(row, col);
+            EXPECT_MATRIX();
             break;
         default:
             printf("Invalid OP-Code\n");
