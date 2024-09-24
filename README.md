@@ -28,3 +28,4 @@ For some reasons I want to create a matrix calculator that can be work with a lo
 - For compiling use:
 ```gcc main.c -lgsl -lgslcblas -lm```
 
+![Screenshot from 2024-09-24 17-52-37](https://github.com/user-attachments/assets/9a317f61-425f-420f-9d3c-161995ce76fb)
