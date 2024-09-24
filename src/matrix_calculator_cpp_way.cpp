@@ -1,131 +1,150 @@
-//N O T  I N   U S E 
-
 #include <iostream>
 #include <vector>
-#include <sstream>
-#include <string>
+#include <iomanip>
 
 using namespace std;
 
-class Matrix{
-public:
-    int row, col;
-    vector<vector<int>> data;
-
-    Matrix(int r, int c) : row(r), col(c), data(r, vector<int>(c)) {}
-
-    void input(){
-        for (int i = 0; i < row; i++){
-            for (int j = 0; j < col; j++){
-                cin >> data[i][j];
-            } 
-        }     
-    }
-
-    void print() const{
-        for (int i = 0; i < row; i++){
-            for (int j = 0; j < col; j++){
-                cout << "[" << data[i][j] << "]";
-            }
-            cout << "\n";
+void inputMatrix(vector<vector<double>>& matrix) {
+    int rows, cols;
+    cout << "Введите количество строк и столбцов (например, 2 3): ";
+    cin >> rows >> cols;
+    matrix.resize(rows, vector<double>(cols));
+    
+    cout << "Введите элементы матрицы:\n";
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            cin >> matrix[i][j];
         }
     }
-
-    Matrix operator+(const Matrix& other) const{
-        Matrix result(row, col);
-        for (int i = 0; i < row; i++){
-            for (int j = 0; j < col; j++){
-                result.data[i][j] = data[i][j] + other.data[i][j];
-            }
-        }
-        return result;
-    }
-
-    Matrix operator-(const Matrix& other) const{
-        Matrix result(row, col);
-        for (int i = 0; i < row; i++){
-            for (int j = 0; j < col; j++){
-                result.data[i][j] = data[i][j] - other.data[i][j];
-            }
-        }
-        return result;
-    }
-
-    Matrix operator*(const Matrix& other) const{
-        Matrix result(row, other.col);
-        for (int i = 0; i < row; i++){
-            for (int j = 0; j < other.col; j++){
-                result.data[i][j] = 0;
-                for (int k = 0; k < col; k++){
-                    result.data[i][j] += data[i][k] * other.data[k][j];
-                }
-
-            }  
-        }
-        return result;  
-    }
-
-    Matrix operator/(const Matrix& other) const{
-        Matrix result(row, col);
-        for (int i = 0; i < row; i++){
-            for (int j = 0; j < col; j++){
-                if (other.data[i][j] != 0){
-                    result.data[i][j] = data[i][j] / other.data[i][j];
-                } else {
-                    cerr << "Division by zero error at (" << i << ", " << j << ")\n";
-                    result.data[i][j] = 0;
-                }
-            }
-        }
-    return result;
-    }
-};
-
-Matrix parseAndCompute(const string& expression, const Matrix& m1, const Matrix& m2){
-    istringstream iss(expression);
-    string matrix1, op, matrix2; //Описывается ввод операнда между двумя матрицами
-    iss >> matrix1 >> op >> matrix2;
-
-    if (matrix1 == "matrix1" && matrix2 == "matrix2"){
-        if(op == "+"){
-            return m1 + m2;
-        } else if(op == "-"){
-            return m1 - m2;
-        } else if(op == "*"){
-            return m1 * m2;
-        } else if (op == "/"){
-            return m1 / m2;
-        } else {
-            cerr << "Invalid operator\n";
-        }
-    } else {cerr << "Invalid matrix names\n";}
-    return Matrix(0, 0);
 }
 
-int main() {
-    int row, col;
-    cout << "Enter the number of rows and columns: ";
-    cin >> row >> col;
+void printMatrix(const vector<vector<double>>& matrix) {
+    for (const auto& row : matrix) {
+        for (const auto& elem : row) {
+            cout << setw(8) << elem << " ";
+        }
+        cout << endl;
+    }
+}
 
-    Matrix m1(row, col);
-    Matrix m2(row, col);
+vector<vector<double>> addMatrices(const vector<vector<double>>& a, const vector<vector<double>>& b) {
+    int rows = a.size(), cols = a[0].size();
+    vector<vector<double>> result(rows, vector<double>(cols));
+    
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result[i][j] = a[i][j] + b[i][j];
+        }
+    }
+    return result;
+}
 
-    cout << "Enter numbers for matrix A:\n";
-    m1.input();
+vector<vector<double>> subtractMatrices(const vector<vector<double>>& a, const vector<vector<double>>& b) {
+    int rows = a.size(), cols = a[0].size();
+    vector<vector<double>> result(rows, vector<double>(cols));
+    
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result[i][j] = a[i][j] - b[i][j];
+        }
+    }
+    return result;
+}
 
-    cout << "Enter numbers for matrix B:\n";
-    m2.input();
+vector<vector<double>> multiplyMatrices(const vector<vector<double>>& a, const vector<vector<double>>& b) {
+    int rows = a.size(), cols = b[0].size(), common = a[0].size();
+    vector<vector<double>> result(rows, vector<double>(cols, 0));
 
-    cin.ignore(); // Игнорируем оставшийся символ новой строки после ввода чисел
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            for (int k = 0; k < common; ++k) {
+                result[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
+    return result;
+}
 
-    string expression;
-    cout << "Enter the expression (e.g., matrix1 + matrix2): ";
-    getline(cin, expression);
+vector<vector<double>> divideMatrices(const vector<vector<double>>& a, const vector<vector<double>>& b) {
+    int rows = a.size(), cols = a[0].size();
+    vector<vector<double>> result(rows, vector<double>(cols));
+    
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (b[i][j] != 0) {
+                result[i][j] = a[i][j] / b[i][j];
+            } else {
+                cout << "Ошибка: деление на ноль в позиции (" << i << ", " << j << ")\n";
+                result[i][j] = 0; // или выбросить исключение
+            }
+        }
+    }
+    return result;
+}
 
-    Matrix result = parseAndCompute(expression, m1, m2);
+int MatrixCalculatorCall() {
+    vector<vector<double>> matrix1, matrix2;
+    
+    cout << "Ввод первой матрицы:\n";
+    inputMatrix(matrix1);
+    
+    char operation;
+    cout << "Введите оператор (+, -, *, /): ";
+    cin >> operation;
+    
+    cout << "Ввод второй матрицы:\n";
+    inputMatrix(matrix2);
+    
+    vector<vector<double>> result;
 
-    cout << "Resultant matrix:\n";
-    result.print();
+    switch (operation) {
+        case '+':
+            if (matrix1.size() == matrix2.size() && matrix1[0].size() == matrix2[0].size()) {
+                result = addMatrices(matrix1, matrix2);
+            } else {
+                cout << "Ошибка: размеры матриц не совпадают для сложения.\n";
+                return 1;
+            }
+            break;
+        case '-':
+            if (matrix1.size() == matrix2.size() && matrix1[0].size() == matrix2[0].size()) {
+                result = subtractMatrices(matrix1, matrix2);
+            } else {
+                cout << "Ошибка: размеры матриц не совпадают для вычитания.\n";
+                return 1;
+            }
+            break;
+        case '*':
+            if (matrix1[0].size() == matrix2.size()) {
+                result = multiplyMatrices(matrix1, matrix2);
+            } else {
+                cout << "Ошибка: количество столбцов первой матрицы не совпадает с количеством строк второй.\n";
+                return 1;
+            }
+            break;
+        case '/':
+            if (matrix1.size() == matrix2.size() && matrix1[0].size() == matrix2[0].size()) {
+                result = divideMatrices(matrix1, matrix2);
+            } else {
+                cout << "Ошибка: размеры матриц не совпадают для деления.\n";
+                return 1;
+            }
+            break;
+        default:
+            cout << "Ошибка: неверный оператор.\n";
+            return 1;
+    }
 
+    cout << "Matrix 1 \n";
+    printMatrix(matrix1);
+    cout << endl;
+
+    cout << "Matrix 2 \n";
+    printMatrix(matrix2);
+    cout << endl;
+
+    cout << "Результат:\n";
+    printMatrix(result);
+    
     return 0;
 }

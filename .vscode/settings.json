@@ -46,6 +46,8 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "gsl_poly.h": "c",
+        "gsl_complex.h": "c"
     }
 }
